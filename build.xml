@@ -159,7 +159,7 @@
   <path id="sample_main.module.sourcepath">
     <dirset dir="${module.sample_main.basedir}/src/main">
       <include name="java"/>
-      <include name="resources"/>
+      <!--<include name="resources"/>-->
     </dirset>
   </path>
   
@@ -248,7 +248,7 @@
   <path id="sample_test.module.test.sourcepath">
     <dirset dir="${module.sample_test.basedir}/src/test">
       <include name="java"/>
-      <include name="resources"/>
+      <!--<include name="resources"/>-->
     </dirset>
   </path>
   
