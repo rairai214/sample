@@ -181,10 +181,10 @@
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
-      <fileset dir="${module.sample_main.basedir}/src/main/resources">
-        <patternset refid="compiler.resources"/>
-        <type type="file"/>
-      </fileset>
+      <!--<fileset dir="${module.sample_main.basedir}/src/main/resources">-->
+        <!--<patternset refid="compiler.resources"/>-->
+        <!--<type type="file"/>-->
+      <!--</fileset>-->
     </copy>
   </target>
   
@@ -272,10 +272,10 @@
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
-      <fileset dir="${module.sample_test.basedir}/src/test/resources">
-        <patternset refid="compiler.resources"/>
-        <type type="file"/>
-      </fileset>
+      <!--<fileset dir="${module.sample_test.basedir}/src/test/resources">-->
+        <!--<patternset refid="compiler.resources"/>-->
+        <!--<type type="file"/>-->
+      <!--</fileset>-->
     </copy>
   </target>
   
