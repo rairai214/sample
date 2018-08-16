@@ -52,41 +52,6 @@
     <exclude name="**/?*.aj"/>
   </patternset>
   
-  <!-- JDK definitions -->
-  
-  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
-  <path id="jdk.classpath.1.8">
-    <fileset dir="${jdk.home.1.8}">
-      <include name="jre/lib/charsets.jar"/>
-      <include name="jre/lib/deploy.jar"/>
-      <include name="jre/lib/ext/access-bridge-64.jar"/>
-      <include name="jre/lib/ext/cldrdata.jar"/>
-      <include name="jre/lib/ext/dnsns.jar"/>
-      <include name="jre/lib/ext/jaccess.jar"/>
-      <include name="jre/lib/ext/jfxrt.jar"/>
-      <include name="jre/lib/ext/localedata.jar"/>
-      <include name="jre/lib/ext/nashorn.jar"/>
-      <include name="jre/lib/ext/sunec.jar"/>
-      <include name="jre/lib/ext/sunjce_provider.jar"/>
-      <include name="jre/lib/ext/sunmscapi.jar"/>
-      <include name="jre/lib/ext/sunpkcs11.jar"/>
-      <include name="jre/lib/ext/zipfs.jar"/>
-      <include name="jre/lib/javaws.jar"/>
-      <include name="jre/lib/jce.jar"/>
-      <include name="jre/lib/jfr.jar"/>
-      <include name="jre/lib/jfxswt.jar"/>
-      <include name="jre/lib/jsse.jar"/>
-      <include name="jre/lib/management-agent.jar"/>
-      <include name="jre/lib/plugin.jar"/>
-      <include name="jre/lib/resources.jar"/>
-      <include name="jre/lib/rt.jar"/>
-    </fileset>
-  </path>
-  
-  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
-  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
-  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
-  
   
   <!-- Project Libraries -->
   
@@ -97,20 +62,6 @@
   <path id="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath">
     <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
   </path>
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <fileset dir="${javac2.home}">
-      <include name="javac2.jar"/>
-      <include name="jdom.jar"/>
-      <include name="asm-all*.jar"/>
-      <include name="forms-*.jar"/>
-    </fileset>
-  </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
   
   <!-- Modules -->
   
@@ -120,9 +71,6 @@
   <dirname property="module.sample.basedir" file="${ant.file}"/>
   
   
-  <property name="module.jdk.home.sample" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.sample" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.sample" value="${project.jdk.classpath}"/>
   
   <property name="compiler.args.sample" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
   
@@ -133,16 +81,13 @@
     <!-- Paths to be included in compilation bootclasspath -->
   </path>
   
-  <path id="sample.module.production.classpath">
-    <path refid="${module.jdk.classpath.sample}"/>
-  </path>
+  <path id="sample.module.production.classpath"/>
   
   <path id="sample.runtime.production.module.classpath">
     <pathelement location="${sample.output.dir}"/>
   </path>
   
   <path id="sample.module.classpath">
-    <path refid="${module.jdk.classpath.sample}"/>
     <pathelement location="${sample.output.dir}"/>
   </path>
   
@@ -163,9 +108,9 @@
   
   <target name="compile.module.sample" depends="compile.module.sample.production,compile.module.sample.tests" description="Compile module sample"/>
   
-  <target name="compile.module.sample.production" depends="register.custom.compilers" description="Compile module sample; production classes"/>
+  <target name="compile.module.sample.production" description="Compile module sample; production classes"/>
   
-  <target name="compile.module.sample.tests" depends="register.custom.compilers,compile.module.sample.production" description="compile module sample; test classes" unless="skip.tests"/>
+  <target name="compile.module.sample.tests" depends="compile.module.sample.production" description="compile module sample; test classes" unless="skip.tests"/>
   
   <target name="clean.module.sample" description="cleanup module">
     <delete dir="${sample.output.dir}"/>
@@ -178,9 +123,6 @@
   <dirname property="module.sample_main.basedir" file="${ant.file}"/>
   
   
-  <property name="module.jdk.home.sample_main" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.sample_main" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.sample_main" value="${project.jdk.classpath}"/>
   
   <property name="compiler.args.sample_main" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
   
@@ -191,16 +133,13 @@
     <!-- Paths to be included in compilation bootclasspath -->
   </path>
   
-  <path id="sample_main.module.production.classpath">
-    <path refid="${module.jdk.classpath.sample_main}"/>
-  </path>
+  <path id="sample_main.module.production.classpath"/>
   
   <path id="sample_main.runtime.production.module.classpath">
     <pathelement location="${sample_main.output.dir}"/>
   </path>
   
   <path id="sample_main.module.classpath">
-    <path refid="${module.jdk.classpath.sample_main}"/>
     <pathelement location="${sample_main.output.dir}"/>
   </path>
   
@@ -227,15 +166,15 @@
   
   <target name="compile.module.sample_main" depends="compile.module.sample_main.production,compile.module.sample_main.tests" description="Compile module sample_main"/>
   
-  <target name="compile.module.sample_main.production" depends="register.custom.compilers" description="Compile module sample_main; production classes">
+  <target name="compile.module.sample_main.production" description="Compile module sample_main; production classes">
     <mkdir dir="${sample_main.output.dir}"/>
-    <javac2 destdir="${sample_main.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.sample_main}/javac">
+    <javac destdir="${sample_main.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
       <compilerarg line="${compiler.args.sample_main}"/>
       <bootclasspath refid="sample_main.module.bootclasspath"/>
       <classpath refid="sample_main.module.production.classpath"/>
       <src refid="sample_main.module.sourcepath"/>
       <patternset refid="excluded.from.compilation.sample_main"/>
-    </javac2>
+    </javac>
     
     <copy todir="${sample_main.output.dir}">
       <fileset dir="${module.sample_main.basedir}/src/main/java">
@@ -249,7 +188,7 @@
     </copy>
   </target>
   
-  <target name="compile.module.sample_main.tests" depends="register.custom.compilers,compile.module.sample_main.production" description="compile module sample_main; test classes" unless="skip.tests"/>
+  <target name="compile.module.sample_main.tests" depends="compile.module.sample_main.production" description="compile module sample_main; test classes" unless="skip.tests"/>
   
   <target name="clean.module.sample_main" description="cleanup module">
     <delete dir="${sample_main.output.dir}"/>
@@ -262,9 +201,6 @@
   <dirname property="module.sample_test.basedir" file="${ant.file}"/>
   
   
-  <property name="module.jdk.home.sample_test" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.sample_test" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.sample_test" value="${project.jdk.classpath}"/>
   
   <property name="compiler.args.sample_test" value="-encoding UTF-8 -source 8 -target 1.8 ${compiler.args}"/>
   
@@ -276,7 +212,6 @@
   </path>
   
   <path id="sample_test.module.production.classpath">
-    <path refid="${module.jdk.classpath.sample_test}"/>
     <pathelement location="${sample_main.output.dir}"/>
     <path refid="library.gradle:_junit:junit:4.12.classpath"/>
     <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
@@ -289,7 +224,6 @@
   </path>
   
   <path id="sample_test.module.classpath">
-    <path refid="${module.jdk.classpath.sample_test}"/>
     <pathelement location="${sample_main.output.dir}"/>
     <path refid="library.gradle:_junit:junit:4.12.classpath"/>
     <path refid="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath"/>
@@ -321,17 +255,17 @@
   
   <target name="compile.module.sample_test" depends="compile.module.sample_test.production,compile.module.sample_test.tests" description="Compile module sample_test"/>
   
-  <target name="compile.module.sample_test.production" depends="register.custom.compilers,compile.module.sample_main" description="Compile module sample_test; production classes"/>
+  <target name="compile.module.sample_test.production" depends="compile.module.sample_main" description="Compile module sample_test; production classes"/>
   
-  <target name="compile.module.sample_test.tests" depends="register.custom.compilers,compile.module.sample_test.production" description="compile module sample_test; test classes" unless="skip.tests">
+  <target name="compile.module.sample_test.tests" depends="compile.module.sample_test.production" description="compile module sample_test; test classes" unless="skip.tests">
     <mkdir dir="${sample_test.testoutput.dir}"/>
-    <javac2 destdir="${sample_test.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.sample_test}/javac">
+    <javac destdir="${sample_test.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
       <compilerarg line="${compiler.args.sample_test}"/>
       <bootclasspath refid="sample_test.module.bootclasspath"/>
       <classpath refid="sample_test.module.classpath"/>
       <src refid="sample_test.module.test.sourcepath"/>
       <patternset refid="excluded.from.compilation.sample_test"/>
-    </javac2>
+    </javac>
     
     <copy todir="${sample_test.testoutput.dir}">
       <fileset dir="${module.sample_test.basedir}/src/test/java">
