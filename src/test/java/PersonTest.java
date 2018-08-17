@@ -29,6 +29,6 @@ public class PersonTest {
     public void getFullName2() {
         Person person = new Person("yamada", "tarou");
 
-        assertEquals("yamada taro", person.getFullName());
+        assertEquals("yamada tarou", person.getFullName());
     }
 }
